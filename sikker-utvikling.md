@@ -1,9 +1,9 @@
 # Sikker utvikling
-Her vil du se noen eksempler på usikker kode hos den fiktive organisasjonen Bollebakeriet som kan gjøres sikrere. Prøv gjerne å skrive om komponentene selv eller tenke på ulike løsninger før du ser på løsningsforslaget.
+Organisasjonen Bollebakeriet er ikke så gode på å drive med sikker utvikling. Her er neon eksempler på usikker kode de har, som kan gjøres sikrere. Prøv gjerne å skrive om komponentene selv eller tenke på ulike løsninger før du ser på løsningsforslaget.
 
 
 ## Cookies
-Nettstedet bruker denne usikre cookien. Hvordan kan vi gjøre den sikrere?
+Bollebakeriet.no bruker denne usikre cookien. Hvordan kan vi gjøre den sikrere?
 ```
 app.get('/', (req,res)=> {
     // Set cookie options
