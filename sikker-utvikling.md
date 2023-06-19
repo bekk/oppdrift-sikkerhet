@@ -1,5 +1,5 @@
 # Sikker utvikling
-Organisasjonen Bollebakeriet er ikke så gode på å drive med sikker utvikling. Her er neon eksempler på usikker kode de har, som kan gjøres sikrere. Prøv gjerne å skrive om komponentene selv eller tenke på ulike løsninger før du ser på løsningsforslaget.
+Organisasjonen Bollebakeriet er ikke så gode på å drive med sikker utvikling. Her er noen eksempler på usikker kode de har skrevet, som kan gjøres sikrere. Prøv gjerne å skrive om komponentene selv eller tenke på ulike løsninger før du ser på løsningsforslaget.
 
 
 ## Cookies
