@@ -1,2 +1,2 @@
-# oppdrift-sikkerhet
-Workshops til Oppdrift Sikkerhet 🔐
+# Oppdrift sikkerhet
+Workshops og oppgaver til Oppdrift Sikkerhet 🔐
