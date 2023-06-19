@@ -1,9 +1,9 @@
 # Sikker utvikling
-Her vil du se noen eksempler på usikker kode som vi kan gjøre sikrere. Prøv gjerne å skrive om komponentene selv eller tenke på ulike løsninger før du ser på løsningsforslaget.
+Her vil du se noen eksempler på usikker kode hos den fiktive organisasjonen Bollebakeriet som kan gjøres sikrere. Prøv gjerne å skrive om komponentene selv eller tenke på ulike løsninger før du ser på løsningsforslaget.
 
 
 ## Cookies
-Dette er en usikker cookie. Hvordan kan vi gjøre den sikrere?
+Nettstedet bruker denne usikre cookien. Hvordan kan vi gjøre den sikrere?
 ```
 app.get('/', (req,res)=> {
     // Set cookie options
@@ -48,7 +48,7 @@ app.get('/', (req,res)=>{
 
 
 ## Gjenoppretting av passord
-Bollebakeriet.no har følgende metode for gjenoppretting av passord. Hvis brukeren trykker på knappen for glemt passord genereres et token som sendes i en lenke på e-post til brukeren. URL-en for å gjenopprette passord blir dermed noe ala ``` https://bollebakeriet.no/glemt-passord?token=f054bbd2f5ebab9cb5571000b2c50c02 ```
+De ivrigste kundene av Bollebakeriet kan opprette bruker for å gjenta bestillinger. Bollebakeriet.no har følgende metode for gjenoppretting av passord. Hvis brukeren trykker på knappen for glemt passord genereres et token som sendes i en lenke på e-post til brukeren. URL-en for å gjenopprette passord blir dermed noe ala ``` https://bollebakeriet.no/glemt-passord?token=f054bbd2f5ebab9cb5571000b2c50c02 ```
 
 Koden for gjenoppretting ser slik ut:
 
@@ -66,7 +66,7 @@ Hvordan kan vi gjøre den sikrere?
 <details>
 
 <summary>🚨 Løsningsforslag </summary>
-Tokenet som generes er ikke random siden det kun er en hash av brukernavnet. Dermed kan man resette andres passord hvis man vet eller gjetter brukernavnet deres.
+Det genererte tokenet er ikke random siden det kun er en hash av brukernavnet. Dermed kan man resette andres passord hvis man vet eller gjetter brukernavnet deres.
 
 
 Her ser dere et eksempel på en sikrere versjon av den samme koden hvor vi bruker en [NPM-pakke for UUID](https://www.npmjs.com/package/uuid) for å generere et tilfeldig token.
@@ -85,34 +85,34 @@ app.post('/forgot-password', (req, res) => {
 
 
 ## Hente karakter
-Studentweb har følgende endepunkt for å hente en karakter hvis man er logget inn som student.
+Hos Bollebakeriet kan du hente ut hvor mye penger du har brukt hos dem. De har følgende endepunkt for å hente ut summen hvis man er logget inn.
 
 ```
-class Grade:
+class Total:
     def on_get(self, req, resp):
-        grade = lookup_grade(req.params["subjectID"], req.params["studentID"])
-        resp.media = grade
+        total = lookup_total(req.params["userID"])
+        resp.media = total
 
 app = falcon.App()
-app.add_route("/grades", Grade())
+app.add_route("/total", Total())
 ```
 Dette endepunktet er usikkert, ser du hvorfor? Hvordan kan vi gjøre det sikrere?
 
 <details>
 
 <summary>🚨 Løsningsforslag </summary>
-Endepunktet over har ingen sjekk på om det er en gyldig sesjon, så man vil kunne hente andre studenters karakterer ved å sende inn forskjellige ID-er. 
+Endepunktet over har ingen sjekk på om det er en gyldig sesjon, så man vil kunne hente andre brukeres sum ved å sende inn forskjellige ID-er. 
 
-Her har vi lagt til en sjekk på at ID-en tilhører brukerens sesjon så man kun kan se sin egen karakter.
+Her har vi lagt til en sjekk på at ID-en tilhører brukerens sesjon så man kun kan se sin egen sum.
 
 ```
-class Grade:
+class Total:
     def on_get(self, req, resp):
-        if get_student_id(session) != req.params['studentID']:
+        if get_user_id(session) != req.params['userID']:
             resp.media = "Access Denied"
             return False 
-        grade = lookup_grade(req.params['subjectID'], req.params['studentID'])
-        resp.media = grade
+        total = lookup_total(req.params['studentID'])
+        resp.media = total
 ```
 </details>
 
@@ -204,7 +204,7 @@ def login():
 
 
 ## Onboarding av brukere
-Koden under er en del av onboardingen av nye kunder. Den tar imot navnet til brukeren, konverterer det til store bokstaver og viser en melding til brukeren. Ser du hvorfor denne koden er usikker og hvordan vi kan gjøre den sikrere?
+Koden under er en del av onboardingen av Bollebakeriets nye kunder. Den tar imot navnet til brukeren, konverterer det til store bokstaver og viser en melding til brukeren. Ser du hvorfor denne koden er usikker og hvordan vi kan gjøre den sikrere?
 
 ```
 app.get('/customerOnboarding', (req, res) => {
