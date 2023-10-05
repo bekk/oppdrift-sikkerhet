@@ -55,11 +55,31 @@ Trafikk inspiseres i ``` HTTP history ``` under ``` proxy ``` eller i ``` sitema
     <details>
       <summary>💡 Hint</summary>
     
-      Siden Intruder har kraftige begrensnigner på hvor mange kall man kan gjøre i sekundet er den ikke spesielt godt egnet til å gjøre noe reell brute-forcing. Heldigvis har noen laget en utvidelse som gir deg kraftigere funksjonalitet. [Følg denne guiden](https://portswigger.net/research/turbo-intruder-embracing-the-billion-request-attack) for å installere og bruke Turbo Intruder til å brute-force brukernavn og passord på innloggingssiden. Disse listene med [vanlige brukernavn](https://github.com/danielmiessler/SecLists/blob/master/Usernames/Names/names.txt) og [passord](https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10k-most-common.txt) er for eksempel fin å bruke.
-  
-    Start med å finne et gyldig brukernavn. Deretter kan du brute-force passordet til brukeren. Det kan være lurt å filtrere vekk responser som indikerer at brukernavnet eller passordet er feil i resultattabellen.
-  
-    </details>
+      Siden Intruder har kraftige begrensnigner på hvor mange kall man kan gjøre i sekundet er den ikke spesielt godt egnet til å gjøre noe reell brute-forcing. Heldigvis har noen laget en utvidelse som gir deg kraftigere funksjonalitet - Turbo Intruder. Denne kan vi bruke til å brute-force brukernavn og passord på innloggingssiden. En mer omfattende guide og mer informasjon om Turbo Intruder finner du [her](https://portswigger.net/research/turbo-intruder-embracing-the-billion-request-attack), den korte versjonen er under 👇
+
+    **Installer Turbo Intruder**
+    1. Installer med BApp Store under ``` Extensions ``` taben.
+    2. For eksempel: Prøv et tilfeldig brukernavn og passord på innloggingen (username: test, password: hemmelig). Finn requesten din i historikken og marker inputen til passordet ``` hemmelig ```. Høyreklikk, velg ``` Extensions ```, ``` Turbo Intrudder ``` og ``` Send to Turbo Intruder ```. Da åpnes et vindu med requesten din og noe Python-kode. Nederst i raw-filen vil du se ``` username=test&password=%s ```. Området du markerte har blitt erstattet med ```%s```, og det vil bli erstattet med payloadene du sender inn i angrepet.
+    3. I Python-koden kan vi begynne med å endre inputen for ordlisten fra ``` /usr/share/dict/words ``` til en annen liste. Disse listene med [vanlige brukernavn](https://github.com/danielmiessler/SecLists/blob/master/Usernames/Names/names.txt) og [passord](https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10k-most-common.txt) er for eksempel fine å bruke. Start med å finne et gyldig brukernavn. Deretter kan du brute-force passordet til brukeren. Eksempelkoden i Python sier at resultater kun skal legges til i listen hvis de er interessante, så det kan være lurt å endre følgende kode:
+      ```
+      def handleResponse(req, interesting):
+          if interesting:
+              table.add(req)
+      ```
+      til for eksempel
+      ```
+      def handleResponse(req, interesting):
+          if not 'Invalid username' in req.response:
+              table.add(req)
+      ```
+      Da filtrerer vi vekk responser som indikerer at brukernavnet er feil i resultattabellen.
+    
+    4. Trykk på den litt skjulte attack-knappen nederst for å starte angrepet.
+
+    
+    **NB:** oppgavens gyldige brukernavn og passord genereres på nytt hver gang oppgaven startes så det er ikke sikkert at brukernavn og passord finnes i ordlistene.
+
+</details>
   
   Hvis du er ferdig med alle oppgavene her er det bare å gå løs på flere oppgaver på Hacker101 💪
   
