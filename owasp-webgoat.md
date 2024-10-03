@@ -23,7 +23,7 @@
 <details><summary>Løsningsforslag ⚠️</summary>
 
 2. Skriv inn brukernavn `tom` og passord `cat`
-3. Bruk nettverkstaben til å inspisere en request som går til `view profile`
+3. Bruk nettverkstaben til å inspisere en request som går til `profile`
 4. Requesten i forrige oppgave gikk til `/IDOR/profile`. Da kan vi prøve med `/IDOR/profile/<userId fra forrige oppgave>`
 5. Gjør et kall til en annen id for å finne noen andres profil: gjør en request og inspiser den i nettverkstaben. Prøv å bytt ut id-en med noen tall ved å inkrementere din egen id et par ganger
 </details>
